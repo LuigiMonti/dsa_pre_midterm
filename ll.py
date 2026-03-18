@@ -5,6 +5,7 @@ class Node:
     def __init__(self, data: Any) -> None:
         self.data: Any = data
         self.next: Optional["Node"] = None
+        self.prev: Optional["Node"] = None
         self.playlist = {"song":'', 
                          "artist":'',
                          "album": ''}
@@ -45,15 +46,24 @@ class LinkedList:
         self.start = element
 
     def insert_at_end(self, element: Node) -> None:
-        pass
+        if self.start is  None:
+            self.start = element
+        
+        else:
+            for current_node in self:
+                pass
+            current_node.next = element
 
     def insert_after_node(self, element: Node, node_reference: Any) -> None:
         pass
 
     def delete_node(self, element_data: Any) -> None:
-        # Deletes the first node with matching data
-        pass
+        if self.start is None:
+            print('Empty linked list..')
+            return
+        
 
+        
     def search(self, element_data: Any) -> Optional[Node]:
         # Returns the first node with matching data
         pass
