@@ -2,28 +2,28 @@ from typing import Any, Optional, Iterator
 
 
 class Node:
-    def __init__(self, data: Any) -> None:
+    def __init__(self, data: Any, song, album, artist) -> None:
         self.data: Any = data
         self.next: Optional["Node"] = None
         self.prev: Optional["Node"] = None
-        self.playlist = {"song":'', 
-                         "artist":'',
-                         "album": ''}
+        self.playlist = {"song":song, 
+                         "artist":artist,
+                         "album": album}
+
 
     def __repr__(self) -> str:
-        return f'(DATA: {self.data} | NEXT: {self.next})'  # TODO: En el futuro arreglar repr para mostrar solo la data, error cuando next es None
-    
+        return f"[{self.data}. {self.playlist['song']} - {self.playlist['artist']} ({self.playlist['album']})]"
+   
 
-class LinkedList:
+class LinkedList: 
     def __init__(self) -> None:
         self.start: Optional[Node] = None
 
     def __repr__(self) -> str:
-        nodes = ['START']
+        nodes = []
         for node in self:
-            nodes.append(node.data)
-        nodes.append('NIL')
-        return '\n' + ' --> '.join(nodes)
+            nodes.append(repr(node))
+        return '\n'.join(nodes)
 
     def __iter__(self) -> Iterator[Node]:
         node = self.start
@@ -55,15 +55,27 @@ class LinkedList:
             current_node.next = element
 
     def insert_after_node(self, element: Node, node_reference: Any) -> None:
-        pass
+    
+        target = self.search(node_reference)
+        if target is None:
+                print(f"Node with data '{node_reference}' not found.")
+                return
+        element.next = target.next
+        target.next = element
 
     def delete_node(self, element_data: Any) -> None:
         if self.start is None:
             print('Empty linked list..')
             return
         
+        if self.start.data == element_data:
+            self.start = self.start.next
+            return
+        
 
         
     def search(self, element_data: Any) -> Optional[Node]:
-        # Returns the first node with matching data
-        pass
+        for node in self:
+            if node.data == element_data:
+                return node
+        return None
